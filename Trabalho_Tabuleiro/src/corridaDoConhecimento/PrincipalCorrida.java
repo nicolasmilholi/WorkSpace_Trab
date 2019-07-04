@@ -6,10 +6,11 @@ public class PrincipalCorrida {
 		String menu;
 		int opcao;
 		Pessoa p1 = null, p2 = null;
-		Perguntas.inicializar();
+		Perguntas.initialize();
 
 		do {
-			menu = "\n\n1 - Inserir novos jogadores" + "\n2 - Iniciar jogo" + "\n3 - Gerenciar perguntas"
+			menu = "\n\n1 - Inserir"
+					+ " novos jogadores" + "\n2 - Iniciar jogo" + "\n3 - Gerenciar perguntas"
 					+ "\n4 - Terminar" + "\nDigite a operação: ";
 			opcao = Util.validaIntervalo(menu, 1, 5);
 

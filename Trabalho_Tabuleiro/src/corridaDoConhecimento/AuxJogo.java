@@ -10,6 +10,7 @@ public class AuxJogo {
 	static Lista lstVez;
 	static PilhaGenericaIlim pilhaPerguntas = new PilhaGenericaIlim();
 	static Scanner entrada = new Scanner(System.in);
+	
 
 	public static Pessoa criarJogador(Pessoa pessoaJogo) {
 		String nomeJogador;
@@ -33,20 +34,23 @@ public class AuxJogo {
 	}
 
 	public static void iniciarJogo(Pessoa pessoaJogo1, Pessoa pessoaJogo2, int qtd) {
+		
+		
 		if (podeIniciar(pessoaJogo1, pessoaJogo2)) {
 
 			lstJogo1 = populaLst(qtd, lstJogo1);
 			lstJogo2 = populaLst(qtd, lstJogo2);
 			
-			Perguntas.inicializar();
-			populaPilha(pilhaPerguntas);
+			
+			
 			
 			if (!lstJogo1.Vazia() || !lstJogo2.Vazia()) {
-
+				int cont = 0;
 				int cond = 1;
 				boolean parada = false;
 
 				do {
+					populaPilha(pilhaPerguntas, cont);
 					cond *= -1;
 					if (cond == 1) {
 						pessoaVez = pessoaJogo1;
@@ -57,16 +61,19 @@ public class AuxJogo {
 					}
 
 					/////////////////////////////////////////////////////////////////////////////////
-
-					System.out.println("\nVez de " + pessoaVez);
 					System.out.println(
 							"----------------------------------------------------------------");
 					
-					System.out.println("Pergunta: "+pilhaPerguntas.desempilha());
+					System.out.println("\nVez de " + pessoaVez);
+					System.out.println(
+							"----------------------------------------------------------------");
+					Object pergunta = (Object) pilhaPerguntas.desempilha();
+					
+					System.out.println("Pergunta: " + pergunta);
 								
 
 					System.out.println(
-							"----------------------------------------------------------------");
+							 "----------------------------------------------------------------");
 
 					if (acertou()) {
 
@@ -97,8 +104,14 @@ public class AuxJogo {
 							}
 						}
 					}else
+						
+						if(lstVez.pesquisa(pessoaVez)<0) {
+							lstVez.insereInicio(pessoaVez);
+							System.out.println(pessoaVez +" não acertou a pergunta então se mantem na posição " +lstVez.pesquisa(pessoaVez));
+						} else {
 						System.out.println(pessoaVez +" não acertou a pergunta então se mantem na posição " +lstVez.pesquisa(pessoaVez));
-
+						}
+					cont++;
 				} while (!parada);
 
 			} else {
@@ -107,10 +120,9 @@ public class AuxJogo {
 		}
 	}
 
-	private static void populaPilha(PilhaGenericaIlim pilhaPerguntas2) {
-		for (int i = 0; i < Perguntas.getLength(); i++) {
-			pilhaPerguntas2.empilha(Perguntas.getPergunta(i));
-		}
+	private static PilhaGenericaIlim populaPilha(PilhaGenericaIlim pilhaPerguntas2, int cont) {
+			pilhaPerguntas2.empilha(Perguntas.getPergunta(cont));
+		return pilhaPerguntas2;
 		
 	}
 
